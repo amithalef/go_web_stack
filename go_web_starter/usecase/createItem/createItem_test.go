@@ -1,6 +1,8 @@
-package usecase_test
+package createItem_test
 
 import (
+	"../storage"
+	"../createItem"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
@@ -8,15 +10,12 @@ import (
 var _ = Describe("Create Item", func() {
 		Context("when Item Does Not Exist", func() {
 			It("should create Item", func() {
-
-				var itemStorage = ItemStorage{}
-
-				createItem.execute(createItemInput)
+				var itemStorage = storage.ItemStorage{}
+				input := createItem.Input{}
+				usecase := createItem.Usecase{}
+				usecase.Execute(input)
 
 				itemStorage.save.called.once()
-
-
-				//Expect(longBook.CategoryByLength()).To(Equal("NOVEL"))
 			})
 		})
 
