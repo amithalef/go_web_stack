@@ -1,6 +1,7 @@
 package createItem
 
 import (
+	"errors"
 	"github.com/amithnair91/go_web_stack/go_web_starter/domain"
 	"github.com/amithnair91/go_web_stack/go_web_starter/usecase/storage"
 )
@@ -11,12 +12,18 @@ type Usecase struct {
 
 type Input struct {
 	Name string
+	Id   string
 }
 
 func (i *Input) ToItem() domain.Item {
 	return domain.Item{Name: i.Name}
 }
 
-func (u *Usecase) Execute(input Input) {
+func (u *Usecase) Execute(input Input) (error error){
+	exists := u.ItemStorage.Exists(input.Id)
+	if !exists {
+		error = errors.New("Item Already exists")
+	}
 	u.ItemStorage.Save(input.ToItem())
+	return
 }

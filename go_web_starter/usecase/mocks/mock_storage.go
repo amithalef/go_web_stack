@@ -46,3 +46,17 @@ func (mr *MockItemStorageMockRecorder) Save(item interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Save", reflect.TypeOf((*MockItemStorage)(nil).Save), item)
 }
+
+// Exists mocks base method
+func (m *MockItemStorage) Exists(id string) bool {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Exists", id)
+	ret0, _ := ret[0].(bool)
+	return ret0
+}
+
+// Exists indicates an expected call of Exists
+func (mr *MockItemStorageMockRecorder) Exists(id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Exists", reflect.TypeOf((*MockItemStorage)(nil).Exists), id)
+}

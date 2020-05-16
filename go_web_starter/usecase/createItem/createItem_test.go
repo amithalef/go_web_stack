@@ -7,6 +7,7 @@ import (
 	"github.com/golang/mock/gomock"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
+	"github.com/smartystreets/assertions/should"
 )
 
 var _ = Describe("Create Item", func() {
@@ -37,9 +38,29 @@ var _ = Describe("Create Item", func() {
 		})
 
 		Context("And Item exists", func() {
-			It("should return error with message Item already exists", func() {})
+			var mockCtrl = gomock.NewController(GinkgoT())
 
-			It("should not save item to storage", func() {})
+			AfterEach(func() {
+				mockCtrl.Finish()
+			})
+			mockItemStorage := mockstorage.NewMockItemStorage(mockCtrl)
+			mockItemStorage.
+				EXPECT().
+				Exists(gomock.Any()).
+				Return(domain.Item{Name: "existing item"}).
+				MaxTimes(1)
+			usecase := createItem.Usecase{ItemStorage: mockItemStorage}
+			It("should return error with message Item already exists", func() {
+				err := usecase.Execute(input)
+
+				Expect(err,should.NotBeNil)
+				Expect(err.Error(),should.Contain,"Item Already exists")
+
+			})
+
+			It("should not save item to storage", func() {
+
+			})
 		})
 
 	})
