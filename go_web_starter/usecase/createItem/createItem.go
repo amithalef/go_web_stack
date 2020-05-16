@@ -19,6 +19,5 @@ func (i *Input) ToItem() domain.Item {
 }
 
 func (u *Usecase) Execute(input Input) {
-	fmt.Println(input.ToItem().Name)
 	u.ItemStorage.Save(input.ToItem())
 }
