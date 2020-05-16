@@ -1,8 +1,8 @@
 package createItem_test
 
 import (
-	"../createItem"
-	"../storage"
+	"github.com/amithnair91/go_web_stack/go_web_starter/usecase/createItem"
+	"github.com/amithnair91/go_web_stack/go_web_starter/usecase/storage"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
