@@ -1,7 +1,6 @@
 package createItem
 
 import (
-	"fmt"
 	"github.com/amithnair91/go_web_stack/go_web_starter/domain"
 	"github.com/amithnair91/go_web_stack/go_web_starter/usecase/storage"
 )
