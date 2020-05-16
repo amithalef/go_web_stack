@@ -1,10 +1,15 @@
 package createItem
 
-type Usecase struct {}
+import "github.com/amithnair91/go_web_stack/go_web_starter/usecase/storage"
 
-type Input struct{}
+type Usecase struct {
+	ItemStorage storage.ItemStorage
+}
+
+type Input struct {
+	Name string
+}
 
 func (c *Usecase) Execute(input Input) {
 
 }
-

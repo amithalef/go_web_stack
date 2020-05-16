@@ -1,3 +1,5 @@
 package domain
 
-type Item struct {}
+type Item struct {
+	Name string
+}

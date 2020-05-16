@@ -1,27 +1,51 @@
 package createItem_test
 
 import (
+	"github.com/amithnair91/go_web_stack/go_web_starter/domain"
 	"github.com/amithnair91/go_web_stack/go_web_starter/usecase/createItem"
-	"github.com/amithnair91/go_web_stack/go_web_starter/usecase/storage"
+	"github.com/amithnair91/go_web_stack/go_web_starter/usecase/mocks"
+	"github.com/golang/mock/gomock"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
 
 var _ = Describe("Create Item", func() {
+	var mockCtrl *gomock.Controller
+
+	BeforeEach(func() {
+		mockCtrl = gomock.NewController(GinkgoT())
+	})
+
+	AfterEach(func() {
+		mockCtrl.Finish()
+	})
+
 	Context("when Item Does Not Exist", func() {
+
 		It("should create Item", func() {
-			var itemStorage = storage.ItemStorage{}
-			input := createItem.Input{}
-			usecase := createItem.Usecase{}
+			itemName := "bag"
+
+			mockItemStorage := mock_storage.NewMockItemStorage(mockCtrl)
+
+			var capturedItem domain.Item
+			mockItemStorage.
+				EXPECT().
+				Save(gomock.Any()).
+				Do(func(arg domain.Item) {
+					capturedItem = arg
+				}).MaxTimes(1)
+
+			input := createItem.Input{Name: itemName}
+			usecase := createItem.Usecase{ItemStorage: mockItemStorage}
 			usecase.Execute(input)
 
-			itemStorage.save.called.once()
+			Expect(capturedItem.Name).To(Equal(itemName))
 		})
 	})
 
 	Context("when Item Exists", func() {
 		It("should return error with message item already exists", func() {
-			Expect(shortBook.CategoryByLength()).To(Equal("SHORT STORY"))
+
 		})
 	})
 })
