@@ -1,30 +1,29 @@
 package createItem_test
 
 import (
-	"../storage"
 	"../createItem"
+	"../storage"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 )
 
 var _ = Describe("Create Item", func() {
-		Context("when Item Does Not Exist", func() {
-			It("should create Item", func() {
-				var itemStorage = storage.ItemStorage{}
-				input := createItem.Input{}
-				usecase := createItem.Usecase{}
-				usecase.Execute(input)
+	Context("when Item Does Not Exist", func() {
+		It("should create Item", func() {
+			var itemStorage = storage.ItemStorage{}
+			input := createItem.Input{}
+			usecase := createItem.Usecase{}
+			usecase.Execute(input)
 
-				itemStorage.save.called.once()
-			})
+			itemStorage.save.called.once()
 		})
+	})
 
-		Context("when Item Exists", func() {
-			It("should return error with message item already exists", func() {
-				Expect(shortBook.CategoryByLength()).To(Equal("SHORT STORY"))
-			})
+	Context("when Item Exists", func() {
+		It("should return error with message item already exists", func() {
+			Expect(shortBook.CategoryByLength()).To(Equal("SHORT STORY"))
 		})
-
+	})
 })
 
 //Given("Create Item"){
