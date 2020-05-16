@@ -34,10 +34,10 @@ func (m *MockItemStorage) EXPECT() *MockItemStorageMockRecorder {
 }
 
 // Save mocks base method
-func (m *MockItemStorage) Save(item domain.Item) domain.Item {
+func (m *MockItemStorage) Save(item *domain.Item) *domain.Item {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Save", item)
-	ret0, _ := ret[0].(domain.Item)
+	ret0, _ := ret[0].(*domain.Item)
 	return ret0
 }
 

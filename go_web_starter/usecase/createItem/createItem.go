@@ -15,15 +15,19 @@ type Input struct {
 	Id   string
 }
 
-func (i *Input) ToItem() domain.Item {
-	return domain.Item{Name: i.Name}
+func (i *Input) ToItem() (*domain.Item, error) {
+	return domain.NewItem(i.Name)
 }
 
-func (u *Usecase) Execute(input Input) (error error){
+func (u *Usecase) Execute(input Input) (error error) {
 	exists := u.ItemStorage.Exists(input.Id)
 	if !exists {
 		error = errors.New("Item Already exists")
 	}
-	u.ItemStorage.Save(input.ToItem())
+	item, error := input.ToItem()
+	if error != nil {
+		return error
+	}
+	u.ItemStorage.Save(item)
 	return
 }
