@@ -47,10 +47,6 @@ var _ = Describe("Create Item", func() {
 				Expect(err, should.NotBeNil)
 				Expect(err.Error(), should.Contain, "Item Already exists")
 			})
-
-			It("should not save item to storage", func() {
-
-			})
 		})
 
 	})
