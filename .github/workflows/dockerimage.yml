@@ -16,3 +16,9 @@ jobs:
     - uses: actions/checkout@v2
     - name: Build the Docker image
       run: docker build go_web_starter/. --file go_web_starter/Dockerfile --tag go_web_starter:$(date +%s)
+    - name: Publish to Registry
+      uses: elgohr/Publish-Docker-Github-Action@master
+      with:
+        name: myDocker/repository
+        username: amithnair91
+        password: $(cat ~/GH_TOKEN.txt )
