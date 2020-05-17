@@ -15,4 +15,4 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: docker build . --file go_web_starter/Dockerfile --tag go_web_starter:$(date +%s)
+      run: docker build go_web_starter/. --file go_web_starter/Dockerfile --tag go_web_starter:$(date +%s)
