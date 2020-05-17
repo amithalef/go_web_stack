@@ -20,5 +20,5 @@ jobs:
       uses: elgohr/Publish-Docker-Github-Action@master
       with:
         name: myDocker/repository
-        username: amithnair91
-        password: $(cat ~/GH_TOKEN.txt )
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
