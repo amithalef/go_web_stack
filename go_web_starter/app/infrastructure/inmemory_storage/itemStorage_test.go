@@ -8,7 +8,7 @@ import (
 
 func TestNewInMemoryStorageReturnStorageWithSizeAsZero(t *testing.T) {
 	storage := str.NewInMemoryStorage()
-	assert.Equal(t,0,storage.Size())
+	assert.Equal(t, 0, storage.Size())
 }
 
 //func TestShouldBeAbleToAddItem(){

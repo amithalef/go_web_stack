@@ -6,7 +6,6 @@ import (
 	"github.com/amithnair91/go_web_stack/go_web_starter/app/domain"
 )
 
-
 type Input struct {
 	Name string
 	Id   string
