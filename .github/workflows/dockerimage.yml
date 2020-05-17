@@ -15,5 +15,5 @@ jobs:
           echo ${{ secrets.DOCKER_PASSWORD }} | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
           echo $(ls)
           echo $(pwd)
-          docker build go_web_starter/. --file go_web_starter/Dockerfile --tag go_web_starter:${VERSION}
+          docker build go_web_starter --file go_web_starter/Dockerfile --tag go_web_starter:${VERSION}
           docker push go_web_starter:${VERSION}
