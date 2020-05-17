@@ -19,7 +19,7 @@ func (i *Input) ToItem() (*domain.Item, error) {
 	return domain.NewItem(i.Name)
 }
 
-func (u *Usecase) Execute(input Input) (error error) {
+func (u *Usecase) Execute(input Input) error {
 	exists := u.ItemStorage.Exists(input.Id)
 	if exists {
 		return errors.New("Item Already exists")
@@ -29,5 +29,5 @@ func (u *Usecase) Execute(input Input) (error error) {
 		return error
 	}
 	u.ItemStorage.Save(item)
-	return
+	return nil
 }
