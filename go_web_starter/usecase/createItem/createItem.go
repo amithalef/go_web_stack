@@ -21,16 +21,13 @@ type Usecase struct {
 }
 
 func (u *Usecase) Execute(input Input) error {
-	if len(input.Name) < 1 {
-		return errors.New("name cannot be empty")
+	item, error := input.ToItem()
+	if error != nil {
+		return error
 	}
 	exists := u.ItemStorage.Exists(input.Id)
 	if exists {
 		return errors.New("Item Already exists")
-	}
-	item, error := input.ToItem()
-	if error != nil {
-		return error
 	}
 	u.ItemStorage.Save(item)
 	return nil
