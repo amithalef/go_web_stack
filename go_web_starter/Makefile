@@ -4,7 +4,7 @@ fixfmt:
 
 test:
 	@echo "Running Tests"
-	@go test ./...
+	@go test -v ./...
 
 mocks:
 	@mockgen -destination=$(pwd)/usecase/mocks/mock_storage.go -source=$(pwd)//usecase/storage/storage.go
