@@ -21,8 +21,8 @@ func (i *Input) ToItem() (*domain.Item, error) {
 
 func (u *Usecase) Execute(input Input) (error error) {
 	exists := u.ItemStorage.Exists(input.Id)
-	if !exists {
-		error = errors.New("Item Already exists")
+	if exists {
+		return errors.New("Item Already exists")
 	}
 	item, error := input.ToItem()
 	if error != nil {

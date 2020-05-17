@@ -18,19 +18,19 @@ var _ = Describe("Create Item", func() {
 		Context("And Item Does Not exists", func() {
 			var mockCtrl = gomock.NewController(GinkgoT())
 
-			var capturedItem domain.Item
+			var capturedItem *domain.Item
 			mockItemStorage := mockstorage.NewMockItemStorage(mockCtrl)
-			mockItemStorage.
-				EXPECT().
-				Save(gomock.Any()).
-				Do(func(arg domain.Item) {
-					capturedItem = arg
-				}).MaxTimes(1)
 			mockItemStorage.
 				EXPECT().
 				Exists(gomock.Any()).
 				Return(false).
 				MaxTimes(1)
+			mockItemStorage.
+				EXPECT().
+				Save(gomock.Any()).
+				Do(func(arg *domain.Item) {
+					capturedItem = arg
+				}).MaxTimes(1)
 			usecase := createItem.Usecase{ItemStorage: mockItemStorage}
 
 			It("should save item to storage", func() {
@@ -52,6 +52,10 @@ var _ = Describe("Create Item", func() {
 				Exists(gomock.Any()).
 				Return(true).
 				MaxTimes(1)
+			mockItemStorage.
+				EXPECT().
+				Save(gomock.Any()).
+				MaxTimes(0)
 			usecase := createItem.Usecase{ItemStorage: mockItemStorage}
 			It("should return error with message Item already exists", func() {
 				defer mockCtrl.Finish()
