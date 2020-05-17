@@ -20,6 +20,10 @@ func (i *Input) ToItem() (*domain.Item, error) {
 }
 
 func (u *Usecase) Execute(input Input) error {
+	if len(input.Name) < 1 {
+		return errors.New("name cannot be empty")
+	}
+
 	exists := u.ItemStorage.Exists(input.Id)
 	if exists {
 		return errors.New("Item Already exists")

@@ -14,7 +14,6 @@ var _ = Describe("Create Item", func() {
 
 	Context("With Valid Input", func() {
 		input := createItem.Input{Name: "bag"}
-
 		Context("And Item Does Not exists", func() {
 			var mockCtrl = gomock.NewController(GinkgoT())
 			var capturedItem *domain.Item
@@ -45,15 +44,22 @@ var _ = Describe("Create Item", func() {
 				err := usecase.Execute(input)
 
 				Expect(err, should.NotBeNil)
-				Expect(err.Error(), should.Contain, "Item Already exists")
+				Expect(err.Error()).To(Equal("Item Already exists"))
 			})
 		})
-
 	})
 
 	Context("With InValid Input", func() {
+		invalidInput := createItem.Input{Name: ""}
 
-		It("should return error with message invalid input", func() {})
+		It("should return error with message invalid input", func() {
+			var mockCtrl = gomock.NewController(GinkgoT())
+			mockItemStorage := mockstorage.NewMockItemStorage(mockCtrl)
+			usecase := createItem.Usecase{ItemStorage: mockItemStorage}
 
+			err := usecase.Execute(invalidInput)
+
+			Expect(err.Error()).To(Equal("name cannot be empty"))
+		})
 	})
 })
