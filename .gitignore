@@ -1,2 +1,8 @@
 .idea
 **/**.idea
+.idea/*
+build/*
+vendor/*
+out/*
+.DS_Store
+**/**/.DS_Store
