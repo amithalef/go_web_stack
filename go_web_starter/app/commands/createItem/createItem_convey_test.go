@@ -20,10 +20,10 @@ package createItem_test
 //					Do(func(arg domain.Item) {
 //						capturedItem = arg
 //					}).MaxTimes(1)
-//				usecase := createItem.Usecase{ItemStorage: mockItemStorage}
+//				commands := createItem.Usecase{ItemStorage: mockItemStorage}
 //
 //				Convey("should save to Storage", func() {
-//					usecase.Execute(input)
+//					commands.Execute(input)
 //					So(capturedItem.Name, ShouldEqual, input.Name)
 //				})
 //			})

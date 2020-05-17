@@ -1,7 +1,7 @@
 package testbuilders
 
 import (
-	"github.com/amithnair91/go_web_stack/go_web_starter/domain"
+	"github.com/amithnair91/go_web_stack/go_web_starter/app/domain"
 )
 
 func NewItem(name string) (*domain.Item, error) {

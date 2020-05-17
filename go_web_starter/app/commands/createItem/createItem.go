@@ -2,8 +2,8 @@ package createItem
 
 import (
 	"errors"
-	"github.com/amithnair91/go_web_stack/go_web_starter/domain"
-	"github.com/amithnair91/go_web_stack/go_web_starter/usecase/storage"
+	"github.com/amithnair91/go_web_stack/go_web_starter/app/commands/storage"
+	"github.com/amithnair91/go_web_stack/go_web_starter/app/domain"
 )
 
 
