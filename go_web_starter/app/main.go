@@ -1,4 +1,4 @@
-package app
+package main
 
 import (
 	"fmt"
@@ -7,6 +7,7 @@ import (
 
 func main() {
 	http.HandleFunc("/", HelloServer)
+	fmt.Println("Listening on port 8080")
 	http.ListenAndServe(":8080", nil)
 }
 

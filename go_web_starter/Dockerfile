@@ -1,0 +1,29 @@
+############################
+# STEP 1 build executable binary
+############################
+FROM golang:alpine AS builder
+RUN apk update && apk add curl && apk add --no-cache git
+RUN curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
+WORKDIR $GOPATH/src/amithnair91/go_web_starter/
+# Copy Source code
+COPY . .
+# Fetch dependencies.
+RUN dep ensure
+
+# Build the binary
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build \
+      -ldflags='-w -s -extldflags "-static"' -a \
+      -o /go/app app/main.go
+
+RUN chmod +x /go/app
+############################
+# STEP 2 build a small image
+############################
+FROM scratch
+# Copy our static executable.
+EXPOSE 8080
+# Run the app binary.
+
+COPY --from=builder /go/app /app
+
+CMD ["/app"]

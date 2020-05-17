@@ -18,3 +18,6 @@ compile:
 clean:
 	@echo "Removing existing builds"
 	@-rm -rf build
+
+docker:
+	@docker build -t go-web-starter .
