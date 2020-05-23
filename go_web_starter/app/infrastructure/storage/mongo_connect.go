@@ -11,12 +11,18 @@ import (
 )
 
 func Connect(ip string, port string) (*mongo.Client, error) {
+	if len(ip) < 1 {
+		return nil, errors.New("IP cannot be empty")
+	}
+	if len(port) < 1 {
+		return nil, errors.New("Port cannot be empty")
+	}
 	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 	client, err := mongo.Connect(ctx, options.Client().ApplyURI(fmt.Sprintf("mongodb://%s:%s", ip, port)))
 	if err != nil {
 		return nil, errors.New(fmt.Sprintf("could not connect to mongo db : %s", err))
 	}
-	ctx, _ = context.WithTimeout(context.Background(), 2*time.Second)
+	ctx, _ = context.WithTimeout(context.Background(), 30*time.Second)
 	err = client.Ping(ctx, readpref.Primary())
 	if err != nil {
 		return nil, errors.New(fmt.Sprintf("could not ping mongo db : %s", err))

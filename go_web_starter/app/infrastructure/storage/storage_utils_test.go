@@ -16,8 +16,8 @@ type MongoTestContainer struct {
 	context context.Context
 }
 
-func (mtc *MongoTestContainer) Start(t *testing.T) (mongo testcontainers.Container, ip string, port string) {
-	port = "27017"
+func (mtc *MongoTestContainer) Start(t *testing.T) (mongo testcontainers.Container) {
+	port := "27017"
 	ctx := context.Background()
 	mtc.context = ctx
 	req := testcontainers.ContainerRequest{
@@ -33,14 +33,16 @@ func (mtc *MongoTestContainer) Start(t *testing.T) (mongo testcontainers.Contain
 	if err != nil {
 		t.Error(err)
 	}
-	ip, err = mongo.Host(ctx)
+	ip, err := mongo.Host(ctx)
 	if err != nil {
 		t.Error(err)
 	}
-	_, err = mongo.MappedPort(ctx, nat.Port(port))
+	mappedPort, err := mongo.MappedPort(ctx, nat.Port(port))
 	if err != nil {
 		t.Error(err)
 	}
+	mtc.Port = mappedPort.Port()
+	mtc.IP = ip
 	return
 }
 
