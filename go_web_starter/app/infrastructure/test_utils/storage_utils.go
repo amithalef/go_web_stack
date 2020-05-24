@@ -1,4 +1,4 @@
-package storage_test
+package test_utils
 
 import (
 	"context"
@@ -9,6 +9,8 @@ import (
 	"github.com/testcontainers/testcontainers-go"
 	"github.com/testcontainers/testcontainers-go/wait"
 )
+
+const DatabaseName = "testing"
 
 type MongoTestContainer struct {
 	IP      string

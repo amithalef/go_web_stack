@@ -6,10 +6,11 @@ import (
 	"github.com/stretchr/testify/assert"
 
 	"github.com/amithnair91/go_web_stack/go_web_starter/app/infrastructure/storage"
+	"github.com/amithnair91/go_web_stack/go_web_starter/app/infrastructure/test_utils"
 )
 
 func TestConnectMongo(t *testing.T) {
-	container := MongoTestContainer{}
+	container := test_utils.MongoTestContainer{}
 	container.Start(t)
 	defer container.Stop()
 	database, err := storage.Connect(container.IP, container.Port, "testing")
@@ -20,7 +21,7 @@ func TestConnectMongo(t *testing.T) {
 }
 
 func TestConnectMongoReturnsErrorWhenIpIsEmpty(t *testing.T) {
-	container := MongoTestContainer{}
+	container := test_utils.MongoTestContainer{}
 	container.Start(t)
 	defer container.Stop()
 	_, err := storage.Connect("", container.Port, "testing")
@@ -29,7 +30,7 @@ func TestConnectMongoReturnsErrorWhenIpIsEmpty(t *testing.T) {
 }
 
 func TestConnectMongoReturnsErrorWhenPortIsEmpty(t *testing.T) {
-	container := MongoTestContainer{}
+	container := test_utils.MongoTestContainer{}
 	container.Start(t)
 	defer container.Stop()
 	_, err := storage.Connect(container.IP, "", "testing")
@@ -38,7 +39,7 @@ func TestConnectMongoReturnsErrorWhenPortIsEmpty(t *testing.T) {
 }
 
 func TestConnectMongoReturnsErrorWhenDatabaseNameIsEmpty(t *testing.T) {
-	container := MongoTestContainer{}
+	container := test_utils.MongoTestContainer{}
 	container.Start(t)
 	defer container.Stop()
 	_, err := storage.Connect(container.IP, container.Port, "")

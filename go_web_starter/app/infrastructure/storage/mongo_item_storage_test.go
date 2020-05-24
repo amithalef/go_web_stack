@@ -1,6 +1,7 @@
 package storage_test
 
 import (
+	"github.com/amithnair91/go_web_stack/go_web_starter/app/infrastructure/test_utils"
 	"testing"
 
 	"github.com/amithnair91/go_web_stack/go_web_starter/app/domain"
@@ -8,13 +9,11 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-const databaseName = "testing"
-
 func TestSaveItemToDatabase(t *testing.T) {
-	container := MongoTestContainer{}
+	container := test_utils.MongoTestContainer{}
 	defer container.Stop()
 	container.Start(t)
-	database, _ := storage.Connect(container.IP, container.Port, databaseName)
+	database, _ := storage.Connect(container.IP, container.Port, test_utils.DatabaseName)
 	itemStorage := storage.NewMongoItemStorage(database)
 	bag, _ := domain.NewItem("bag")
 
@@ -25,10 +24,10 @@ func TestSaveItemToDatabase(t *testing.T) {
 }
 
 func TestExistsReturnsFalseIfNotExistsInDatabase(t *testing.T) {
-	container := MongoTestContainer{}
+	container := test_utils.MongoTestContainer{}
 	defer container.Stop()
 	container.Start(t)
-	database, _ := storage.Connect(container.IP, container.Port, databaseName)
+	database, _ := storage.Connect(container.IP, container.Port, test_utils.DatabaseName)
 	itemStorage := storage.NewMongoItemStorage(database)
 	bag, _ := domain.NewItem("bag")
 
@@ -39,10 +38,10 @@ func TestExistsReturnsFalseIfNotExistsInDatabase(t *testing.T) {
 }
 
 func TestExistsReturnsTrueIfExistsInDatabase(t *testing.T) {
-	container := MongoTestContainer{}
+	container := test_utils.MongoTestContainer{}
 	defer container.Stop()
 	container.Start(t)
-	database, _ := storage.Connect(container.IP, container.Port, databaseName)
+	database, _ := storage.Connect(container.IP, container.Port, test_utils.DatabaseName)
 	itemStorage := storage.NewMongoItemStorage(database)
 	bag, _ := domain.NewItem("bag")
 	itemStorage.Save(bag)
