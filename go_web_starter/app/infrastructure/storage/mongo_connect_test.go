@@ -10,9 +10,9 @@ func TestConnectMongo(t *testing.T) {
 	container := MongoTestContainer{}
 	container.Start(t)
 	defer container.Stop()
-	client, err := storage.Connect(container.IP, container.Port)
+	database, err := storage.Connect(container.IP, container.Port,"testing")
 	assert.NotNil(t, err)
-	assert.NotNil(t, client)
-	collection := client.Database("testing").Collection("numbers")
+	assert.NotNil(t, database)
+	collection := database.Collection("numbers")
 	assert.Equal(t, "numbers", collection.Name())
 }

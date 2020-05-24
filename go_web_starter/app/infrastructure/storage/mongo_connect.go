@@ -10,7 +10,7 @@ import (
 	"time"
 )
 
-func Connect(ip string, port string) (*mongo.Client, error) {
+func Connect(ip string, port string, databaseName string) (*mongo.Database, error) {
 	if len(ip) < 1 {
 		return nil, errors.New("IP cannot be empty")
 	}
@@ -27,5 +27,5 @@ func Connect(ip string, port string) (*mongo.Client, error) {
 	if err != nil {
 		return nil, errors.New(fmt.Sprintf("could not ping mongo db : %s", err))
 	}
-	return client, nil
+	return client.Database(databaseName), nil
 }
