@@ -20,6 +20,6 @@ func TestNewItemFailsWhenNameIsEmpty(t *testing.T) {
 	item, err := domain.NewItem("")
 
 	assert.NotNil(t, err)
-	assert.Equal(t, "Name cannot be empty", err.Error())
+	assert.Equal(t, "name cannot be empty", err.Error())
 	assert.Nil(t, item)
 }
