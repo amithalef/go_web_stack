@@ -5,17 +5,18 @@ import (
 	"errors"
 	"fmt"
 	"github.com/amithnair91/go_web_stack/go_web_starter/app/domain"
+	"github.com/google/uuid"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"time"
 )
 
-type ItemStorage struct {
+type MongoItemStorage struct {
 	collection *mongo.Collection
 	context    context.Context
 }
 
-func (s ItemStorage) Save(item *domain.Item) (string, error) {
+func (s MongoItemStorage) Save(item *domain.Item) (string, error) {
 	one, err := s.collection.InsertOne(s.context, item)
 	if err != nil {
 		return "", errors.New(fmt.Sprintf("Could not save to database: %s", err.Error()))
@@ -23,8 +24,12 @@ func (s ItemStorage) Save(item *domain.Item) (string, error) {
 	return one.InsertedID.(primitive.ObjectID).String(), nil
 }
 
-func NewItemStorage(database *mongo.Database) ItemStorage {
+func (s MongoItemStorage) Exists(id uuid.UUID) bool {
+	return false
+}
+
+func NewMongoItemStorage(database *mongo.Database) MongoItemStorage {
 	collection := database.Collection("item")
 	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
-	return ItemStorage{collection: collection, context: ctx}
+	return MongoItemStorage{collection: collection, context: ctx}
 }
