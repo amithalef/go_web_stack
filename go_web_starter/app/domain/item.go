@@ -7,13 +7,13 @@ import (
 )
 
 type Item struct {
-	Id   uuid.UUID
-	Name string
+	Id   uuid.UUID  `json:"id" bson:"id"`
+	Name string     `json:"name" bson:"name"`
 }
 
 func NewItem(name string) (*Item, error) {
 	if len(name) < 1 {
-		return nil, errors.New("Name cannot be empty")
+		return nil, errors.New("name cannot be empty")
 	}
 	id, err := uuid.NewRandom()
 	if err != nil {

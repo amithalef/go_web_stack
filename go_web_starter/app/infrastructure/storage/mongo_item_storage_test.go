@@ -35,3 +35,16 @@ func TestExistsReturnsFalseIfNotExistsInDatabase(t *testing.T) {
 
 	assert.False(t, exists)
 }
+
+func TestExistsReturnsTrueIfExistsInDatabase(t *testing.T) {
+	container := MongoTestContainer{}
+	defer container.Stop()
+	container.Start(t)
+	database, _ := storage.Connect(container.IP, container.Port, databaseName)
+	itemStorage := storage.NewMongoItemStorage(database)
+	bag, _ := domain.NewItem("bag")
+	itemStorage.Save(bag)
+
+	exists := itemStorage.Exists(bag.Id)
+	assert.True(t, exists)
+}

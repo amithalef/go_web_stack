@@ -20,3 +20,7 @@ Mocks:
 10.) Circuit breakers/ Fault Tolerance
 11.) Debezium        
 12.) Propogate some additional data in the network layer(Feature toggle information)
+
+
+References:
+https://www.mongodb.com/blog/post/quick-start-golang--mongodb--data-aggregation-pipeline

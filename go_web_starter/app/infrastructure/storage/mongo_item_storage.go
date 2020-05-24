@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/amithnair91/go_web_stack/go_web_starter/app/domain"
 	"github.com/google/uuid"
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"time"
@@ -25,7 +26,14 @@ func (s MongoItemStorage) Save(item *domain.Item) (string, error) {
 }
 
 func (s MongoItemStorage) Exists(id uuid.UUID) bool {
-	return false
+	filter := bson.M{"id": fmt.Sprintf(`"%s"`, id.String())}
+	emptyItem := domain.Item{}
+	var result domain.Item
+	s.collection.FindOne(s.context, filter).Decode(&result)
+	if result == emptyItem {
+		return false
+	}
+	return true
 }
 
 func NewMongoItemStorage(database *mongo.Database) MongoItemStorage {
