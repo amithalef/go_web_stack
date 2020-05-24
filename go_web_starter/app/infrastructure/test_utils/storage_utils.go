@@ -3,6 +3,8 @@ package test_utils
 import (
 	"context"
 	"fmt"
+	"github.com/amithnair91/go_web_stack/go_web_starter/app/infrastructure/storage"
+	"go.mongodb.org/mongo-driver/mongo"
 	"testing"
 
 	"github.com/docker/go-connections/nat"
@@ -51,4 +53,19 @@ func (mtc *MongoTestContainer) Start(t *testing.T) (mongo testcontainers.Contain
 
 func (mtc *MongoTestContainer) Stop() {
 	mtc.mongo.Terminate(mtc.context)
+}
+
+func StartMongoDbForTest(t *testing.T) (MongoTestContainer, *mongo.Database) {
+	container := MongoTestContainer{}
+	container.Start(t)
+	database, error := storage.Connect(container.IP, container.Port, DatabaseName)
+	if error != nil {
+		fmt.Println("failed to Start Mongo Db for Test")
+		panic(t)
+	}
+	return container, database
+}
+
+func StopMongoDbContainer(container MongoTestContainer) {
+	container.Stop()
 }
