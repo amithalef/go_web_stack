@@ -4,12 +4,14 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/amithnair91/go_web_stack/go_web_starter/app/domain"
+	"time"
+
 	"github.com/google/uuid"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
-	"time"
+
+	"github.com/amithnair91/go_web_stack/go_web_starter/app/domain"
 )
 
 type MongoItemStorage struct {
@@ -25,15 +27,16 @@ func (s MongoItemStorage) Save(item *domain.Item) (string, error) {
 	return one.InsertedID.(primitive.ObjectID).String(), nil
 }
 
-func (s MongoItemStorage) Exists(id uuid.UUID) bool {
-	filter := bson.M{"id": fmt.Sprintf(`"%s"`, id.String())}
-	emptyItem := domain.Item{}
+func (s MongoItemStorage) Exists(id uuid.UUID) (bool, error) {
+	filter := bson.M{"id": id}
 	var result domain.Item
-	s.collection.FindOne(s.context, filter).Decode(&result)
-	if result == emptyItem {
-		return false
+	if err := s.collection.FindOne(s.context, filter).Decode(&result); err != nil {
+		if err.Error() == "mongo: no documents in result" {
+			return false, nil
+		}
+		return false, errors.New(fmt.Sprintf("error while decoding item %s :", err.Error()))
 	}
-	return true
+	return true, nil
 }
 
 func NewMongoItemStorage(database *mongo.Database) MongoItemStorage {

@@ -1,9 +1,11 @@
 package domain_test
 
 import (
-	"github.com/amithnair91/go_web_stack/go_web_starter/app/domain"
-	"github.com/stretchr/testify/assert"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
+
+	"github.com/amithnair91/go_web_stack/go_web_starter/app/domain"
 )
 
 func TestShouldBeAbleToCreateItemWithName(t *testing.T) {

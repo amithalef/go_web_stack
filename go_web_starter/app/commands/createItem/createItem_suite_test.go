@@ -1,9 +1,10 @@
 package createItem_test
 
 import (
+	"testing"
+
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	"testing"
 )
 
 func TestCreateItem(t *testing.T) {

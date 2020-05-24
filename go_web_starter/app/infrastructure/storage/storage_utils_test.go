@@ -3,10 +3,11 @@ package storage_test
 import (
 	"context"
 	"fmt"
+	"testing"
+
 	"github.com/docker/go-connections/nat"
 	"github.com/testcontainers/testcontainers-go"
 	"github.com/testcontainers/testcontainers-go/wait"
-	"testing"
 )
 
 type MongoTestContainer struct {

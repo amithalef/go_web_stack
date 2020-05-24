@@ -1,9 +1,11 @@
 package storage_test
 
 import (
-	"github.com/amithnair91/go_web_stack/go_web_starter/app/infrastructure/storage"
-	"github.com/stretchr/testify/assert"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
+
+	"github.com/amithnair91/go_web_stack/go_web_starter/app/infrastructure/storage"
 )
 
 func TestConnectMongo(t *testing.T) {
