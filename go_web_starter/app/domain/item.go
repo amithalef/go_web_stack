@@ -7,8 +7,8 @@ import (
 )
 
 type Item struct {
-	Id   uuid.UUID  `json:"id" bson:"id"`
-	Name string     `json:"name" bson:"name"`
+	Id   uuid.UUID `json:"id" bson:"id"`
+	Name string    `json:"name" bson:"name"`
 }
 
 func NewItem(name string) (*Item, error) {

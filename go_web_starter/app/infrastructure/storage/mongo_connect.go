@@ -12,13 +12,13 @@ import (
 
 func Connect(ip string, port string, databaseName string) (*mongo.Database, error) {
 	if len(ip) < 1 {
-		return nil, errors.New("IP cannot be empty")
+		return nil, errors.New("ip cannot be empty")
 	}
 	if len(port) < 1 {
-		return nil, errors.New("Port cannot be empty")
+		return nil, errors.New("port cannot be empty")
 	}
 	if len(databaseName) < 1 {
-		return nil, errors.New("DatabaseName cannot be empty")
+		return nil, errors.New("databaseName cannot be empty")
 	}
 	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 	client, err := mongo.Connect(ctx, options.Client().ApplyURI(fmt.Sprintf("mongodb://%s:%s/%s", ip, port, databaseName)))
