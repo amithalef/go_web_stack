@@ -59,7 +59,7 @@ var _ = Describe("Create Item", func() {
 
 			err := usecase.Execute(invalidInput)
 
-			Expect(err.Error()).To(Equal("Name cannot be empty"))
+			Expect(err.Error()).To(Equal("name cannot be empty"))
 		})
 	})
 })
