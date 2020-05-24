@@ -20,8 +20,8 @@ func TestSaveItemToDatabase(t *testing.T) {
 
 	id, err := itemStorage.Save(bag)
 
-	assert.NotNil(t, id)
 	assert.Nil(t, err)
+	assert.NotNil(t, id)
 }
 
 func TestExistsReturnsFalseIfNotExistsInDatabase(t *testing.T) {

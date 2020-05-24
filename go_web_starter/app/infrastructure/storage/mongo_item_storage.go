@@ -8,7 +8,6 @@ import (
 
 	"github.com/google/uuid"
 	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 
 	"github.com/amithnair91/go_web_stack/go_web_starter/app/domain"
@@ -19,12 +18,12 @@ type MongoItemStorage struct {
 	context    context.Context
 }
 
-func (s MongoItemStorage) Save(item *domain.Item) (string, error) {
-	one, err := s.collection.InsertOne(s.context, item)
+func (s MongoItemStorage) Save(item *domain.Item) (domain.Item, error) {
+	_, err := s.collection.InsertOne(s.context, item)
 	if err != nil {
-		return "", errors.New(fmt.Sprintf("Could not save to database: %s", err.Error()))
+		return domain.Item{}, errors.New(fmt.Sprintf("Could not save to database: %s", err.Error()))
 	}
-	return one.InsertedID.(primitive.ObjectID).String(), nil
+	return *item, nil
 }
 
 func (s MongoItemStorage) Exists(id uuid.UUID) (bool, error) {
@@ -44,3 +43,19 @@ func NewMongoItemStorage(database *mongo.Database) MongoItemStorage {
 	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
 	return MongoItemStorage{collection: collection, context: ctx}
 }
+
+/*
+func (s MongoItemStorage) Upsert(item *domain.Item) (domain.Item, error) {
+	opts := options.Update().SetUpsert(true)
+	filter := bson.D{{"id", item.Id}}
+	update := bson.D{{"$set", bson.D{{"name", item.Name}, {}}}}
+	result, err := s.collection.UpdateOne(context.TODO(), filter, update, opts)
+	if err != nil {
+		return domain.Item{}, errors.New(fmt.Sprintf("Could not save to database: %s", err.Error()))
+	}
+	if result.UpsertedCount == 1 {
+		return *item, nil
+	}
+	return domain.Item{}, errors.New(fmt.Sprintf("failed to Save to database %s", item.Id))
+}
+*/
