@@ -23,7 +23,7 @@ func Connect(ip string, port string, databaseName string) (*mongo.Database, erro
 	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 	client, err := mongo.Connect(ctx, options.Client().ApplyURI(fmt.Sprintf("mongodb://%s:%s/%s", ip, port, databaseName)))
 	if err != nil {
-		return nil, errors.New(fmt.Sprintf("could not connect to mongo db : %s", err))
+		return nil, errors.New(fmt.Sprintf("could not create mongo client : %s", err))
 	}
 	ctx, _ = context.WithTimeout(context.Background(), 30*time.Second)
 	err = client.Ping(ctx, readpref.Primary())

@@ -43,3 +43,9 @@ func TestConnectMongoReturnsErrorWhenDatabaseNameIsEmpty(t *testing.T) {
 	assert.NotNil(t, err)
 	assert.Contains(t, err.Error(), "databaseName cannot be empty")
 }
+
+func TestShouldReturnWhenFailsToConnectToMongo(t *testing.T) {
+	_, err := storage.Connect("non-existant-ip", "8080", "testing")
+	assert.NotNil(t, err)
+	assert.Contains(t, err.Error(), "could not ping mongo db :")
+}
