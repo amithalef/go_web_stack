@@ -8,7 +8,7 @@ Mocks:
         mockgen -destination=/Users/a.nair/myprojects/my_workspace/src/github.com/amithnair91/go_web_stack/go_web_starter/app/commands/mocks/mock_storage.go -source=/Users/a.nair/myprojects/my_workspace/src/github.com/amithnair91/go_web_stack/go_web_starter/app/commands/storage/storage.go
         
 
-1. Services in GO/Any other language (Hexagonal/Usecase Driven/TDD)
+1. Services in GO (Hexagonal/Usecase Driven/TDD)
 2. RPC
 3. Kafka (message broker)
 4. Load Testing/Perf Test (vegeta/gatling)
