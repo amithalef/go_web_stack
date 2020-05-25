@@ -21,6 +21,14 @@
   version = "v0.8.9"
 
 [[projects]]
+  digest = "1:9cf719862592120e773a4b577447673c28386947317d6c4b63559adeac830206"
+  name = "github.com/caarlos0/env"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "ff72571869869da695e21ad1cffbd187e52dd0fc"
+  version = "v6.2.2"
+
+[[projects]]
   digest = "1:fe9b15f080d19c215514056bae7589d6958821766fb5f5fceb9402ec9df2f736"
   name = "github.com/cenkalti/backoff"
   packages = ["."]
@@ -578,6 +586,8 @@
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
+    "github.com/caarlos0/env",
+    "github.com/docker/go-connections/nat",
     "github.com/golang/mock/gomock",
     "github.com/google/uuid",
     "github.com/onsi/ginkgo",
@@ -586,6 +596,7 @@
     "github.com/stretchr/testify/assert",
     "github.com/testcontainers/testcontainers-go",
     "github.com/testcontainers/testcontainers-go/wait",
+    "go.mongodb.org/mongo-driver/bson",
     "go.mongodb.org/mongo-driver/mongo",
     "go.mongodb.org/mongo-driver/mongo/options",
     "go.mongodb.org/mongo-driver/mongo/readpref",
