@@ -1,4 +1,4 @@
-package projections
+package query_test
 
 import "testing"
 
