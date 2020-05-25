@@ -10,16 +10,17 @@ Mocks:
 
 1. Services in GO/Any other language (Hexagonal/Usecase Driven/TDD)
 2. RPC
-3. Load Testing/Perf Test (vegeta/gatling)
-4. Kubernetes Yaml
-5. Helm Chart
-6. Minikube setup
-7. Istio
-8. Knative
-9. Distributed Tracing
-10. Circuit breakers/ Fault Tolerance
-11. Debezium
-12. Propogate some additional data in the network layer(Feature toggle information)
+3. Kafka (message broker)
+4. Load Testing/Perf Test (vegeta/gatling)
+5. Kubernetes Yaml
+6. Helm Chart
+7. Minikube setup
+8. Istio
+9. Knative
+10. Distributed Tracing
+11. Circuit breakers/ Fault Tolerance (at infrastructure layer)
+12. Debezium
+13. Propogate some additional data in the network layer(Feature toggle information)
 
 
 References:
