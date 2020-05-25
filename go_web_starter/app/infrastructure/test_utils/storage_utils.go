@@ -4,12 +4,10 @@ import (
 	"context"
 	"fmt"
 	"github.com/amithnair91/go_web_stack/go_web_starter/app/infrastructure/mongo_storage"
-	"go.mongodb.org/mongo-driver/mongo"
-	"testing"
-
 	"github.com/docker/go-connections/nat"
 	"github.com/testcontainers/testcontainers-go"
 	"github.com/testcontainers/testcontainers-go/wait"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
 const DatabaseName = "testing"
@@ -21,7 +19,7 @@ type MongoTestContainer struct {
 	context context.Context
 }
 
-func (mtc *MongoTestContainer) Start(t *testing.T) (mongo testcontainers.Container) {
+func (mtc *MongoTestContainer) Start() (mongo testcontainers.Container) {
 	port := "27017"
 	ctx := context.Background()
 	mtc.context = ctx
@@ -36,15 +34,15 @@ func (mtc *MongoTestContainer) Start(t *testing.T) (mongo testcontainers.Contain
 	})
 	mtc.mongo = mongo
 	if err != nil {
-		t.Error(err)
+		panic(err)
 	}
 	ip, err := mongo.Host(ctx)
 	if err != nil {
-		t.Error(err)
+		panic(err)
 	}
 	mappedPort, err := mongo.MappedPort(ctx, nat.Port(port))
 	if err != nil {
-		t.Error(err)
+		panic(err)
 	}
 	mtc.Port = mappedPort.Port()
 	mtc.IP = ip
@@ -55,13 +53,13 @@ func (mtc *MongoTestContainer) Stop() {
 	mtc.mongo.Terminate(mtc.context)
 }
 
-func StartMongoDbForTest(t *testing.T) (MongoTestContainer, *mongo.Database) {
+func StartMongoDbForTest() (MongoTestContainer, *mongo.Database) {
 	container := MongoTestContainer{}
-	container.Start(t)
+	container.Start()
 	database, error := mongo_storage.Connect(container.IP, container.Port, DatabaseName)
 	if error != nil {
 		fmt.Println("failed to Start Mongo Db for Test")
-		panic(t)
+		panic(error)
 	}
 	return container, database
 }

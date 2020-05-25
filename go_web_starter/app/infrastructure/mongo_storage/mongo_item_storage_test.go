@@ -10,8 +10,8 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func setup(t *testing.T) (test_utils.MongoTestContainer, *mongo.Database) {
-	return test_utils.StartMongoDbForTest(t)
+func setup() (test_utils.MongoTestContainer, *mongo.Database) {
+	return test_utils.StartMongoDbForTest()
 }
 
 func teardown(container test_utils.MongoTestContainer) {
@@ -19,7 +19,7 @@ func teardown(container test_utils.MongoTestContainer) {
 }
 
 func TestSaveItemToDatabase(t *testing.T) {
-	container, database := setup(t)
+	container, database := setup()
 	itemStorage := mongo_storage.NewMongoItemStorage(database)
 	bag, _ := domain.NewItem("bag")
 
@@ -31,7 +31,7 @@ func TestSaveItemToDatabase(t *testing.T) {
 }
 
 func TestExistsReturnsFalseIfNotExistsInDatabase(t *testing.T) {
-	container, database := setup(t)
+	container, database := setup()
 	itemStorage := mongo_storage.NewMongoItemStorage(database)
 	bag, _ := domain.NewItem("bag")
 
@@ -43,7 +43,7 @@ func TestExistsReturnsFalseIfNotExistsInDatabase(t *testing.T) {
 }
 
 func TestExistsReturnsTrueIfExistsInDatabase(t *testing.T) {
-	container, database := setup(t)
+	container, database := setup()
 	itemStorage := mongo_storage.NewMongoItemStorage(database)
 	bag, _ := domain.NewItem("bag")
 	itemStorage.Save(bag)

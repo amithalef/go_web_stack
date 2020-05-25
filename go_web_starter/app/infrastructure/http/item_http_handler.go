@@ -18,5 +18,7 @@ func (ih *ItemHttpHandler) CreateItem(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte(err.Error()))
 	}
 
-	//createItem.Usecase{ih.itemStorage}
+	usecase := createItem.Usecase{ItemStorage: ih.itemStorage}
+
+	usecase.Execute(createItemInput)
 }

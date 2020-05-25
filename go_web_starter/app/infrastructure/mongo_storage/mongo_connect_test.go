@@ -11,7 +11,7 @@ import (
 
 func TestConnectMongo(t *testing.T) {
 	container := test_utils.MongoTestContainer{}
-	container.Start(t)
+	container.Start()
 	defer container.Stop()
 	database, err := mongo_storage.Connect(container.IP, container.Port, "testing")
 	assert.Nil(t, err)
@@ -22,7 +22,7 @@ func TestConnectMongo(t *testing.T) {
 
 func TestConnectMongoReturnsErrorWhenIpIsEmpty(t *testing.T) {
 	container := test_utils.MongoTestContainer{}
-	container.Start(t)
+	container.Start()
 	defer container.Stop()
 	_, err := mongo_storage.Connect("", container.Port, "testing")
 	assert.NotNil(t, err)
@@ -31,7 +31,7 @@ func TestConnectMongoReturnsErrorWhenIpIsEmpty(t *testing.T) {
 
 func TestConnectMongoReturnsErrorWhenPortIsEmpty(t *testing.T) {
 	container := test_utils.MongoTestContainer{}
-	container.Start(t)
+	container.Start()
 	defer container.Stop()
 	_, err := mongo_storage.Connect(container.IP, "", "testing")
 	assert.NotNil(t, err)
@@ -40,7 +40,7 @@ func TestConnectMongoReturnsErrorWhenPortIsEmpty(t *testing.T) {
 
 func TestConnectMongoReturnsErrorWhenDatabaseNameIsEmpty(t *testing.T) {
 	container := test_utils.MongoTestContainer{}
-	container.Start(t)
+	container.Start()
 	defer container.Stop()
 	_, err := mongo_storage.Connect(container.IP, container.Port, "")
 	assert.NotNil(t, err)
