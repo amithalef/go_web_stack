@@ -21,7 +21,6 @@ Mocks:
 11. Circuit breakers/ Fault Tolerance (at infrastructure layer)
 12. Debezium
 13. Propogate some additional data in the network layer(Feature toggle information)
-14. Continuous deployment onto GCP
 
 
 References:
