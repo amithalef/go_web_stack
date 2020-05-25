@@ -83,13 +83,16 @@ func TestCreateItemHandlerReturnsBadRequestForNonPostRequest(t *testing.T) {
 }
 
 func TestCreateItemHandlerReturnsInternalServerErrorIfUnableToCreateItem(t *testing.T) {
-	var jsonStr = []byte(`{"Name":"bag"}`)
+	container, itemStorage := setupTestDatabase()
+	defer container.Stop()
+
+	var jsonStr = []byte(`{"Name":""}`)
 	req, err := http.NewRequest("POST", "/item", bytes.NewBuffer(jsonStr))
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	httpHandler := handlers.ItemHttpHandler{}
+	httpHandler := handlers.ItemHttpHandler{ItemStorage: itemStorage}
 	rr := httptest.NewRecorder()
 	handler := http.HandlerFunc(httpHandler.CreateItemHandler)
 
@@ -101,5 +104,4 @@ func TestCreateItemHandlerReturnsInternalServerErrorIfUnableToCreateItem(t *test
 	}
 
 	assert.NotNil(t, rr.Body)
-	assert.Equal(t, "", rr.Body.String())
 }
