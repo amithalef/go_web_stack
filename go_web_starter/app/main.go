@@ -45,7 +45,7 @@ func initializeConfig() config.Config {
 	env.Parse(&config)
 	err := config.Validate()
 	if err != nil {
-		panic(fmt.Sprintf("the supplied configuration is not valid %#v", config))
+		panic(fmt.Sprintf("the supplied configuration is not valid %#v : %s", config, err.Error()))
 	}
 	return config
 }
