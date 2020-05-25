@@ -3,27 +3,23 @@ package createItem_test
 import (
 	"errors"
 	"fmt"
-	"github.com/golang/mock/gomock"
-	"github.com/google/uuid"
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
-	"github.com/smartystreets/assertions/should"
-
 	"github.com/amithnair91/go_web_stack/go_web_starter/app/commands/createItem"
 	mockstorage "github.com/amithnair91/go_web_stack/go_web_starter/app/commands/mocks"
 	"github.com/amithnair91/go_web_stack/go_web_starter/app/domain"
+	"github.com/golang/mock/gomock"
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
+	"github.com/smartystreets/assertions/should"
 )
 
 var _ = Describe("Create Item", func() {
-	id, _ := uuid.NewRandom()
 
 	Context("With Valid Input", func() {
-		input := createItem.NewInput("bag", id.String())
-		Context("And Item Does Not exists", func() {
+		input := createItem.NewInput("bag")
+		Context("Then", func() {
 			var mockCtrl = gomock.NewController(GinkgoT())
 			var capturedItem *domain.Item
 			mockItemStorage := mockstorage.NewMockItemStorage(mockCtrl)
-			mockItemStorage.EXPECT().Exists(gomock.Any()).Return(false, nil).MaxTimes(1)
 			mockItemStorage.EXPECT().Save(gomock.Any()).
 				Do(func(arg *domain.Item) {
 					capturedItem = arg
@@ -37,27 +33,11 @@ var _ = Describe("Create Item", func() {
 			})
 		})
 
-		Context("And Item exists", func() {
-			var mockCtrl = gomock.NewController(GinkgoT())
-			mockItemStorage := mockstorage.NewMockItemStorage(mockCtrl)
-			mockItemStorage.EXPECT().Exists(gomock.Any()).Return(true, nil).MaxTimes(1)
-			mockItemStorage.EXPECT().Save(gomock.Any()).MaxTimes(0)
-			usecase := createItem.Usecase{ItemStorage: mockItemStorage}
-
-			It("should return error with message Item already exists", func() {
-				defer mockCtrl.Finish()
-				err := usecase.Execute(*input)
-
-				Expect(err, should.NotBeNil)
-				Expect(err.Error()).To(ContainSubstring("Item Already exists"))
-			})
-		})
-
-		Context("And exists in storage fails", func() {
+		Context("And save in storage fails", func() {
 			databaseError := "database call failed"
 			var mockCtrl = gomock.NewController(GinkgoT())
 			mockItemStorage := mockstorage.NewMockItemStorage(mockCtrl)
-			mockItemStorage.EXPECT().Exists(gomock.Any()).Return(false, errors.New(databaseError)).MaxTimes(1)
+			mockItemStorage.EXPECT().Save(gomock.Any()).Return(domain.Item{}, errors.New(databaseError)).MaxTimes(1)
 			usecase := createItem.Usecase{ItemStorage: mockItemStorage}
 
 			It("should return error with message storage is down", func() {
@@ -65,15 +45,14 @@ var _ = Describe("Create Item", func() {
 				err := usecase.Execute(*input)
 
 				Expect(err, should.NotBeNil)
-				Expect(err.Error()).To(ContainSubstring(fmt.Sprintf(`storage is down : %s`, databaseError)))
+				Expect(err.Error()).To(ContainSubstring(fmt.Sprintf(`save to storage failed : %s`, databaseError)))
 			})
 		})
 	})
 
 	Context("With InValid Inputs", func() {
-
 		It("should return error with message invalid input when name is empty", func() {
-			invalidInput := createItem.NewInput("", id.String())
+			invalidInput := createItem.NewInput("")
 			var mockCtrl = gomock.NewController(GinkgoT())
 			mockItemStorage := mockstorage.NewMockItemStorage(mockCtrl)
 			usecase := createItem.Usecase{ItemStorage: mockItemStorage}
@@ -81,17 +60,6 @@ var _ = Describe("Create Item", func() {
 			err := usecase.Execute(*invalidInput)
 
 			Expect(err.Error()).To(ContainSubstring("name cannot be empty"))
-		})
-
-		It("should return error with message invalid input when id is not uuid", func() {
-			invalidInput := createItem.NewInput("bag", "invalid-id-format(not a uuid)")
-			var mockCtrl = gomock.NewController(GinkgoT())
-			mockItemStorage := mockstorage.NewMockItemStorage(mockCtrl)
-			usecase := createItem.Usecase{ItemStorage: mockItemStorage}
-
-			err := usecase.Execute(*invalidInput)
-
-			Expect(err.Error()).To(ContainSubstring("invalid input"))
 		})
 	})
 })
