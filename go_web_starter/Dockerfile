@@ -20,10 +20,16 @@ RUN chmod +x /go/app
 # STEP 2 build a small image
 ############################
 FROM scratch
-# Copy our static executable.
-EXPOSE 8080
-# Run the app binary.
 
+ENV MONGO_HOST=""
+ENV MONGO_PORT=""
+ENV MONGO_DATABASE=""
+ENV APP_PORT="8080"
+
+EXPOSE 8080
+
+# Copy our static executable.
 COPY --from=builder /go/app /app
 
+# Run the app binary.
 CMD ["/app"]
