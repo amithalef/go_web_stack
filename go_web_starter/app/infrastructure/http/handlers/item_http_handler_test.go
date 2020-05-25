@@ -81,3 +81,25 @@ func TestCreateItemHandlerReturnsBadRequestForNonPostRequest(t *testing.T) {
 	assert.NotNil(t, rr.Body)
 	assert.Equal(t, fmt.Sprintf("%s is not supported method", req.Method), rr.Body.String())
 }
+
+func TestCreateItemHandlerReturnsInternalServerErrorIfUnableToCreateItem(t *testing.T) {
+	var jsonStr = []byte(`{"Name":"bag"}`)
+	req, err := http.NewRequest("POST", "/item", bytes.NewBuffer(jsonStr))
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	httpHandler := handlers.ItemHttpHandler{}
+	rr := httptest.NewRecorder()
+	handler := http.HandlerFunc(httpHandler.CreateItemHandler)
+
+	handler.ServeHTTP(rr, req)
+
+	if status := rr.Code; status != http.StatusInternalServerError {
+		t.Errorf("handler returned wrong status code: got %v want %v",
+			status, http.StatusInternalServerError)
+	}
+
+	assert.NotNil(t, rr.Body)
+	assert.Equal(t, "", rr.Body.String())
+}
