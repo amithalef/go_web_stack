@@ -12,7 +12,7 @@ func TestValidateConfigWithCorrectConfig(t *testing.T) {
 	config := configBuilder.Build()
 	err := config.Validate()
 
-	assert.Nil(t,err)
+	assert.Nil(t, err)
 }
 
 func TestValidateReturnsErrorIfMongoHostIsNotSet(t *testing.T) {

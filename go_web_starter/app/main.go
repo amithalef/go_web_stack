@@ -34,7 +34,7 @@ func itemHandler(database *mongo.Database) handlers.ItemHttpHandler {
 func connect(config config.Config) *mongo.Database {
 	database, err := mongo_storage.Connect(config.MONGO_HOST, config.MONGO_PORT, config.MONGO_DATABASE)
 	if err != nil {
-		panic(fmt.Sprintf("application cannot connect to mongodb with config %#v",err))
+		panic(fmt.Sprintf("application cannot connect to mongodb with config %#v", err))
 		os.Exit(1)
 	}
 	return database
