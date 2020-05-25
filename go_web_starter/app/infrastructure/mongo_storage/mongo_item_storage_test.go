@@ -1,4 +1,4 @@
-package storage_test
+package mongo_storage_test
 
 import (
 	"github.com/amithnair91/go_web_stack/go_web_starter/app/infrastructure/test_utils"
@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	"github.com/amithnair91/go_web_stack/go_web_starter/app/domain"
-	"github.com/amithnair91/go_web_stack/go_web_starter/app/infrastructure/storage"
+	"github.com/amithnair91/go_web_stack/go_web_starter/app/infrastructure/mongo_storage"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -20,7 +20,7 @@ func teardown(container test_utils.MongoTestContainer) {
 
 func TestSaveItemToDatabase(t *testing.T) {
 	container, database := setup(t)
-	itemStorage := storage.NewMongoItemStorage(database)
+	itemStorage := mongo_storage.NewMongoItemStorage(database)
 	bag, _ := domain.NewItem("bag")
 
 	id, err := itemStorage.Save(bag)
@@ -32,7 +32,7 @@ func TestSaveItemToDatabase(t *testing.T) {
 
 func TestExistsReturnsFalseIfNotExistsInDatabase(t *testing.T) {
 	container, database := setup(t)
-	itemStorage := storage.NewMongoItemStorage(database)
+	itemStorage := mongo_storage.NewMongoItemStorage(database)
 	bag, _ := domain.NewItem("bag")
 
 	exists, err := itemStorage.Exists(bag.Id)
@@ -44,7 +44,7 @@ func TestExistsReturnsFalseIfNotExistsInDatabase(t *testing.T) {
 
 func TestExistsReturnsTrueIfExistsInDatabase(t *testing.T) {
 	container, database := setup(t)
-	itemStorage := storage.NewMongoItemStorage(database)
+	itemStorage := mongo_storage.NewMongoItemStorage(database)
 	bag, _ := domain.NewItem("bag")
 	itemStorage.Save(bag)
 

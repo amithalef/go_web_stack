@@ -3,8 +3,8 @@ package createItem_test
 import (
 	"errors"
 	"fmt"
-
 	"github.com/golang/mock/gomock"
+	"github.com/google/uuid"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	"github.com/smartystreets/assertions/should"
@@ -15,9 +15,10 @@ import (
 )
 
 var _ = Describe("Create Item", func() {
+	id, _ := uuid.NewRandom()
 
 	Context("With Valid Input", func() {
-		input := createItem.Input{Name: "bag"}
+		input := createItem.NewInput("bag", id.String())
 		Context("And Item Does Not exists", func() {
 			var mockCtrl = gomock.NewController(GinkgoT())
 			var capturedItem *domain.Item
@@ -31,7 +32,7 @@ var _ = Describe("Create Item", func() {
 
 			It("should save item to storage", func() {
 				defer mockCtrl.Finish()
-				usecase.Execute(input)
+				usecase.Execute(*input)
 				Expect(capturedItem.Name).To(Equal(input.Name))
 			})
 		})
@@ -45,10 +46,10 @@ var _ = Describe("Create Item", func() {
 
 			It("should return error with message Item already exists", func() {
 				defer mockCtrl.Finish()
-				err := usecase.Execute(input)
+				err := usecase.Execute(*input)
 
 				Expect(err, should.NotBeNil)
-				Expect(err.Error()).To(Equal("Item Already exists"))
+				Expect(err.Error()).To(ContainSubstring("Item Already exists"))
 			})
 		})
 
@@ -61,7 +62,7 @@ var _ = Describe("Create Item", func() {
 
 			It("should return error with message storage is down", func() {
 				defer mockCtrl.Finish()
-				err := usecase.Execute(input)
+				err := usecase.Execute(*input)
 
 				Expect(err, should.NotBeNil)
 				Expect(err.Error()).To(ContainSubstring(fmt.Sprintf(`storage is down : %s`, databaseError)))
@@ -69,17 +70,28 @@ var _ = Describe("Create Item", func() {
 		})
 	})
 
-	Context("With InValid Input", func() {
-		invalidInput := createItem.Input{Name: ""}
+	Context("With InValid Inputs", func() {
 
-		It("should return error with message invalid input", func() {
+		It("should return error with message invalid input when name is empty", func() {
+			invalidInput := createItem.NewInput("", id.String())
 			var mockCtrl = gomock.NewController(GinkgoT())
 			mockItemStorage := mockstorage.NewMockItemStorage(mockCtrl)
 			usecase := createItem.Usecase{ItemStorage: mockItemStorage}
 
-			err := usecase.Execute(invalidInput)
+			err := usecase.Execute(*invalidInput)
 
-			Expect(err.Error()).To(Equal("name cannot be empty"))
+			Expect(err.Error()).To(ContainSubstring("name cannot be empty"))
+		})
+
+		It("should return error with message invalid input when id is not uuid", func() {
+			invalidInput := createItem.NewInput("bag", "invalid-id-format(not a uuid)")
+			var mockCtrl = gomock.NewController(GinkgoT())
+			mockItemStorage := mockstorage.NewMockItemStorage(mockCtrl)
+			usecase := createItem.Usecase{ItemStorage: mockItemStorage}
+
+			err := usecase.Execute(*invalidInput)
+
+			Expect(err.Error()).To(ContainSubstring("invalid input"))
 		})
 	})
 })

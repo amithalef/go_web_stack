@@ -3,7 +3,7 @@ package test_utils
 import (
 	"context"
 	"fmt"
-	"github.com/amithnair91/go_web_stack/go_web_starter/app/infrastructure/storage"
+	"github.com/amithnair91/go_web_stack/go_web_starter/app/infrastructure/mongo_storage"
 	"go.mongodb.org/mongo-driver/mongo"
 	"testing"
 
@@ -58,7 +58,7 @@ func (mtc *MongoTestContainer) Stop() {
 func StartMongoDbForTest(t *testing.T) (MongoTestContainer, *mongo.Database) {
 	container := MongoTestContainer{}
 	container.Start(t)
-	database, error := storage.Connect(container.IP, container.Port, DatabaseName)
+	database, error := mongo_storage.Connect(container.IP, container.Port, DatabaseName)
 	if error != nil {
 		fmt.Println("failed to Start Mongo Db for Test")
 		panic(t)

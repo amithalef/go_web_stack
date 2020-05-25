@@ -7,6 +7,7 @@ package mock_storage
 import (
 	domain "github.com/amithnair91/go_web_stack/go_web_starter/app/domain"
 	gomock "github.com/golang/mock/gomock"
+	uuid "github.com/google/uuid"
 	reflect "reflect"
 )
 
@@ -34,10 +35,10 @@ func (m *MockItemStorage) EXPECT() *MockItemStorageMockRecorder {
 }
 
 // Save mocks base method
-func (m *MockItemStorage) Save(item *domain.Item) (*domain.Item, error) {
+func (m *MockItemStorage) Save(item *domain.Item) (domain.Item, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Save", item)
-	ret0, _ := ret[0].(*domain.Item)
+	ret0, _ := ret[0].(domain.Item)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -49,7 +50,7 @@ func (mr *MockItemStorageMockRecorder) Save(item interface{}) *gomock.Call {
 }
 
 // Exists mocks base method
-func (m *MockItemStorage) Exists(id string) (bool, error) {
+func (m *MockItemStorage) Exists(id uuid.UUID) (bool, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Exists", id)
 	ret0, _ := ret[0].(bool)

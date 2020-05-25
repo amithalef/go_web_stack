@@ -3,7 +3,7 @@ fixfmt:
 	@gofmt -w -l .
 
 test:
-	@echo "Running Tests"
+	@echo "######################   Running Tests     ###########################"
 	@go test -v ./...
 
 mocks:
