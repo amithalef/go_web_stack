@@ -1,6 +1,10 @@
 # go_web_stack
 
 
+To run application use:
+
+        docker-compose build
+        docker-compose up
 
 Mocks:
    Sample code to generate mocks
