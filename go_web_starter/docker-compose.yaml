@@ -3,8 +3,6 @@ services:
   mongo:
     container_name: mongo
     image: mongo:4.2.6-bionic
-    build:
-      context: .
 #    environment:
 #      MONGO_INITDB_ROOT_USERNAME: root
 #      MONGO_INITDB_ROOT_PASSWORD: example
