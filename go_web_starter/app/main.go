@@ -15,6 +15,7 @@ import (
 
 func main() {
 	config := initializeConfig()
+	fmt.Println(fmt.Sprintf("starting application with config %#v", config))
 	database := connect(config)
 	itemHandler := itemHandler(database)
 
@@ -22,7 +23,7 @@ func main() {
 	http.HandleFunc("/item", itemHandler.CreateItemHandler)
 
 	fmt.Println(fmt.Sprintf("Listening on port %s", config.APP_PORT))
-	http.ListenAndServe(config.APP_PORT, nil)
+	http.ListenAndServe(fmt.Sprintf(":%s",config.APP_PORT), nil)
 }
 
 func itemHandler(database *mongo.Database) handlers.ItemHttpHandler {
