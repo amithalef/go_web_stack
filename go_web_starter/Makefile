@@ -63,7 +63,7 @@ install-knative-build:
 # 	swagger serve -F=swagger swagger.yaml
 
 compose:
-	echo "#########building container########"
-	docker-compose down
-	docker-compose build
-	docker-compose up
+	@echo "#########building container########"
+	@docker-compose down
+	@docker-compose build
+	@docker-compose up
