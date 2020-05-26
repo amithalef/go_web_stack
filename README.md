@@ -5,6 +5,10 @@ To run application use:
 
         docker-compose build
         docker-compose up
+    
+OR using make
+
+        make compose
 
 To test after running docker-compose use the following curl command
 
