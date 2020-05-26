@@ -6,6 +6,10 @@ To run application use:
         docker-compose build
         docker-compose up
 
+To test after running docker-compose use the following curl command
+
+        curl -X POST http://localhost:3344/item  -H 'content-type: application/json' -d '{"Name":"bag"}'
+
 Mocks:
    Sample code to generate mocks
    

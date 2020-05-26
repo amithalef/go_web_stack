@@ -15,11 +15,10 @@ import (
 
 type MongoItemStorage struct {
 	collection *mongo.Collection
-	context    context.Context
 }
 
 func (s MongoItemStorage) Save(item *domain.Item) (domain.Item, error) {
-	_, err := s.collection.InsertOne(s.context, item)
+	_, err := s.collection.InsertOne(defaultContext(), item)
 	if err != nil {
 		return domain.Item{}, errors.New(fmt.Sprintf("Could not save to database: %s", err.Error()))
 	}
@@ -29,7 +28,7 @@ func (s MongoItemStorage) Save(item *domain.Item) (domain.Item, error) {
 func (s MongoItemStorage) Exists(id uuid.UUID) (bool, error) {
 	filter := bson.M{"id": id}
 	var result domain.Item
-	if err := s.collection.FindOne(s.context, filter).Decode(&result); err != nil {
+	if err := s.collection.FindOne(defaultContext(), filter).Decode(&result); err != nil {
 		if err.Error() == "mongo: no documents in result" {
 			return false, nil
 		}
@@ -38,10 +37,15 @@ func (s MongoItemStorage) Exists(id uuid.UUID) (bool, error) {
 	return true, nil
 }
 
+//TODO figure out if  this needs to be instantiated every single time
+func defaultContext() context.Context {
+	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
+	return ctx
+}
+
 func NewMongoItemStorage(database *mongo.Database) MongoItemStorage {
 	collection := database.Collection("item")
-	ctx, _ := context.WithTimeout(context.Background(), 5*time.Second)
-	return MongoItemStorage{collection: collection, context: ctx}
+	return MongoItemStorage{collection: collection}
 }
 
 /*
