@@ -36,10 +36,7 @@ func TestCreateItemHandlerSuccess(t *testing.T) {
 
 	handler.ServeHTTP(rr, req)
 
-	if status := rr.Code; status != http.StatusOK {
-		t.Errorf("handler returned wrong status code: got %v want %v",
-			status, http.StatusOK)
-	}
+	assert.Equal(t, http.StatusOK, rr.Code, fmt.Sprintf("handler returned wrong status code: got %v want %v", rr.Code, http.StatusOK))
 }
 
 func TestCreateItemHandlerReturns400ForInvalidInput(t *testing.T) {
@@ -58,6 +55,7 @@ func TestCreateItemHandlerReturns400ForInvalidInput(t *testing.T) {
 			status, http.StatusBadRequest)
 	}
 
+	assert.Equal(t, http.StatusBadRequest, rr.Code, fmt.Sprintf("handler returned wrong status code: got %v want %v", rr.Code, http.StatusBadRequest))
 	assert.NotNil(t, rr.Body)
 	assert.Equal(t, "body cannot be empty", rr.Body.String())
 }
@@ -78,6 +76,7 @@ func TestCreateItemHandlerReturnsBadRequestForNonPostRequest(t *testing.T) {
 			status, http.StatusBadRequest)
 	}
 
+	assert.Equal(t, http.StatusBadRequest, rr.Code, fmt.Sprintf("handler returned wrong status code: got %v want %v", rr.Code, http.StatusBadRequest))
 	assert.NotNil(t, rr.Body)
 	assert.Equal(t, fmt.Sprintf("%s is not supported method", req.Method), rr.Body.String())
 }
@@ -98,10 +97,6 @@ func TestCreateItemHandlerReturnsInternalServerErrorIfUnableToCreateItem(t *test
 
 	handler.ServeHTTP(rr, req)
 
-	if status := rr.Code; status != http.StatusInternalServerError {
-		t.Errorf("handler returned wrong status code: got %v want %v",
-			status, http.StatusInternalServerError)
-	}
-
+	assert.Equal(t, http.StatusInternalServerError, rr.Code, fmt.Sprintf("handler returned wrong status code: got %v want %v", rr.Code, http.StatusInternalServerError))
 	assert.NotNil(t, rr.Body)
 }

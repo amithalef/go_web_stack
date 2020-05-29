@@ -22,7 +22,7 @@ func main() {
 	http.HandleFunc("/item", itemHandler.CreateItemHandler)
 
 	fmt.Println(fmt.Sprintf("Listening on port %s", config.APP_PORT))
-	http.ListenAndServe(fmt.Sprintf(":%s",config.APP_PORT), nil)
+	http.ListenAndServe(fmt.Sprintf(":%s", config.APP_PORT), nil)
 }
 
 func itemHandler(database *mongo.Database) handlers.ItemHttpHandler {
