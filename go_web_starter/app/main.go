@@ -15,7 +15,6 @@ import (
 
 func main() {
 	config := initializeConfig()
-	fmt.Println(fmt.Sprintf("starting application with config %#v", config))
 	database := connect(config)
 	itemHandler := itemHandler(database)
 
@@ -48,5 +47,6 @@ func initializeConfig() config.Config {
 	if err != nil {
 		panic(fmt.Sprintf("the supplied configuration is not valid %#v : %s", config, err.Error()))
 	}
+	fmt.Println(fmt.Sprintf("initializing application with config %#v", config))
 	return config
 }
