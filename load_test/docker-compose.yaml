@@ -9,11 +9,11 @@ services:
 #      MONGO_INITDB_ROOT_USERNAME: root
 #      MONGO_INITDB_ROOT_PASSWORD: example
     restart: on-failure
-  go_web_starter:
-    container_name: go_web_starter
-    image: go_web_starter-local-build:latest
+  go-web-starter:
+    container_name: go-web-starter
+    image: go-web-starter-local-build:latest
     build:
-      context: .
+      context: ../go_web_starter
       dockerfile: Dockerfile
     ports:
     - 3344:8080
@@ -29,3 +29,15 @@ services:
       interval: 200s
       timeout: 200s
       retries: 5
+  load-test:
+    container_name: load-test
+    image: load-test-go-web-starter:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - APP_BASE_URL=http://go-web-starter:8080
+      - ATTACK_RATE_PER_SECOND=100
+      - ATTACK_DURATION_IN_SECONDS=10
+    depends_on:
+      - go-web-starter

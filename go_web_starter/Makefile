@@ -69,3 +69,6 @@ compose:
 	@docker-compose build
 	@echo "######### starting containers #################"
 	@docker-compose up
+
+sanity:
+	@curl -i -X POST http://localhost:3344/item  -H 'content-type: application/json' -d '{"Name":"bag"}'
