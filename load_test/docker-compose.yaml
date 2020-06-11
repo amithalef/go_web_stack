@@ -15,8 +15,8 @@ services:
     build:
       context: ../go_web_starter
       dockerfile: Dockerfile
-    ports:
-    - 3344:8080
+#    ports:
+#    - 3344:8080
     environment:
       - MONGO_HOST=mongo
       - MONGO_PORT=27017

@@ -10,6 +10,8 @@ COPY . .
 # Fetch dependencies.
 RUN dep ensure
 
+RUN go test -v ./...
+
 # Build the binary
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build \
       -ldflags='-w -s -extldflags "-static"' -a \

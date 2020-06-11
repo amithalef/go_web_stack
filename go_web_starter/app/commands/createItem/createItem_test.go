@@ -10,7 +10,23 @@ import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	"github.com/smartystreets/assertions/should"
+	"github.com/stretchr/testify/assert"
+	"testing"
 )
+
+func TestCreateItem(t *testing.T) {
+	RegisterFailHandler(Fail)
+	RunSpecs(t, "CreateItem Suite")
+}
+
+func TestInputToItemReturnsItemWitCorrectValues(t *testing.T) {
+	input := createItem.NewInput("bag")
+
+	item, _ := input.ToItem()
+
+	assert.Equal(t, input.Name, item.Name)
+	assert.NotNil(t, item.Id)
+}
 
 var _ = Describe("Create Item", func() {
 
